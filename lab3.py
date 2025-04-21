@@ -6,7 +6,7 @@ class IntegralCalculator:
             1: ("-x^3-x^2+x+3", lambda x: -x ** 3 - x ** 2 + x + 3),
             2: ("sin(x)", lambda x: math.sin(x)),
             3: ("e^x", lambda x: math.exp(x)),
-            4: ("tg(x)*cos(x)+x", lambda x: math.tan(x) * math.cos(x) + x),
+            4: ("x^4-x^2+2", lambda x: x**4-x**2+2),
         }
 
         self.methods = {
@@ -20,7 +20,7 @@ class IntegralCalculator:
         self.improper_functions = {
             1: ("1/sqrt(x) (разрыв в 0)", lambda x: 1 / math.sqrt(x), 0),
             2: ("1/(1-x)^2 (разрыв в 1)", lambda x: 1 / (1 - x) ** 2, 1),
-            3: ("ln(x) (разрыв в 0)", lambda x: math.log(x), 0),
+            3: ("ln(x) (разрыв в 0)", lambda x: math.log(x) if x != 0 else float('inf'), 0),
             4: ("1/x (разрыв в 0)", lambda x: 1 / x if x != 0 else float('inf'), 0)
         }
 
@@ -73,11 +73,11 @@ class IntegralCalculator:
             return False
 
         if break_point == a:
-            test_value = self.calculate_improper(func, a, a + 0.1, 1e-6, self.trapezoidal)
+            test_value = self.calculate_improper(func, a, a + 1, 1e-6, self.trapezoidal)
             if abs(test_value[0]) > 1e6:
                 return False
         elif break_point == b:
-            test_value = self.calculate_improper(func, b - 0.1, b, 1e-6, self.trapezoidal)
+            test_value = self.calculate_improper(func, b - 1, b, 1e-6, self.trapezoidal)
             if abs(test_value[0]) > 1e6:
                 return False
         else:
@@ -90,6 +90,7 @@ class IntegralCalculator:
 
     def calculate_improper(self, func, a, b, epsilon, method):
         if math.isinf(func(a)) or math.isnan(func(a)):
+
             return self.calculate_improper_left(func, a, b, epsilon, method)
         elif math.isinf(func(b)) or math.isnan(func(b)):
             return self.calculate_improper_right(func, a, b, epsilon, method)
