@@ -20,8 +20,7 @@ class IntegralCalculator:
         self.improper_functions = {
             1: ("1/sqrt(x) (разрыв в 0)", lambda x: 1 / math.sqrt(x) if x != 0 else float('inf'), 0),
             2: ("1/(1-x)^2 (разрыв в 1)", lambda x: 1 / (1 - x) ** 2 if x != 1 else float('inf'), 1),
-            3: ("ln(x) (разрыв в 0)", lambda x: math.log(x) if x != 0 else float('inf'), 0),
-            4: ("1/x (разрыв в 0)", lambda x: 1 / x if x != 0 else float('inf'), 0)
+            3: ("ln(x) (разрыв в 0)", lambda x: math.log(x) if x != 0 else float('inf'), 0)
         }
 
     def calculate_integral(self, func, a, b, method, epsilon, max_iter=1000):
@@ -144,13 +143,13 @@ class IntegralCalculator:
         return prev_value, 4 * (2 ** 19)
 
     def run(self):
-        print("Добро пожаловать в программу вычисления интегралов!")
+        print("Welcome в этот мир кринжа и плохого кода!")
 
         while True:
-            print("\nМеню:")
+            print("\nЧто вы хотите:")
             print("1. Вычислить определенный интеграл")
             print("2. Вычислить несобственный интеграл II рода")
-            print("3. Выход")
+            print("3. Выйти хотим")
 
             choice = input("Выберите действие: ")
 
@@ -159,33 +158,59 @@ class IntegralCalculator:
             elif choice == '2':
                 self.calculate_improper_integral()
             elif choice == '3':
-                print("До свидания!")
+                print("Ну все, давай, до свидания!")
                 break
             else:
-                print("Неверный выбор. Попробуйте снова.")
+                print("Такого варианта нет, партия просит другой")
 
     def calculate_proper_integral(self):
         print("\nДоступные функции:")
         for idx, (name, _) in self.functions.items():
             print(f"{idx}. {name}")
+        while True:
+            try:
+                func_idx = int(input("Выберите функцию (1-4): "))
+                if func_idx in [1,2,3,4]:
+                    break
+                else:
+                    print("Партия возражает, у нас нет бойца с таким номером")
+            except ValueError:
+                print("Партия требует числа")
+        while True:
+            try:
+                a = float(input("Введите нижний предел интегрирования: ").replace(',', '.'))
+                b = float(input("Введите верхний предел интегрирования: ").replace(',', '.'))
+                if a < b:
+                    break
+                else:
+                    print("Нижняя граница реально должна быть нижней. Без шуток")
+            except ValueError:
+                print("Партия требует числа")
 
-        func_idx = int(input("Выберите функцию (1-5): "))
-        if func_idx not in self.functions:
-            print("Неверный выбор функции.")
-            return
+        while True:
+            try:
+                epsilon = float(input("Введите точность вычисления: ").replace(',', '.'))
+                if epsilon > 0 and epsilon < 1:
+                    break
+                print("Партия требует точность между 0 и 1")
+            except ValueError:
+                print("Партия требует числа")
 
-        a = float(input("Введите нижний предел интегрирования: "))
-        b = float(input("Введите верхний предел интегрирования: "))
-        epsilon = float(input("Введите точность вычисления (например, 0.001): "))
 
         print("\nДоступные методы:")
         for idx, (name, _) in self.methods.items():
             print(f"{idx}. {name}")
 
-        method_idx = int(input("Выберите метод (1-5): "))
-        if method_idx not in self.methods:
-            print("Неверный выбор метода.")
-            return
+
+        while True:
+            try:
+                method_idx = int(input("Выберите метод (1-5): "))
+                if method_idx not in self.methods:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Партия возмущена. Вы выбрали несуществующий метод!")
+
 
         method_name, method_func = self.methods[method_idx]
         func = self.functions[func_idx][1]
@@ -205,23 +230,47 @@ class IntegralCalculator:
         for idx, (name, _, _) in self.improper_functions.items():
             print(f"{idx}. {name}")
 
-        func_idx = int(input("Выберите функцию (1-3): "))
-        if func_idx not in self.improper_functions:
-            print("Неверный выбор функции.")
-            return
+        while True:
+            try:
+                func_idx = int(input("Выберите функцию (1-3): "))
+                if func_idx in [1, 2, 3]:
+                    break
+                else:
+                    print("Партия возражает, у нас нет бойца с таким номером")
+            except ValueError:
+                print("Партия требует числа")
+        while True:
+            try:
+                a = float(input("Введите нижний предел интегрирования: ").replace(',', '.'))
+                b = float(input("Введите верхний предел интегрирования: ").replace(',', '.'))
+                if a < b:
+                    break
+                else:
+                    print("Нижняя граница реально должна быть нижней. Без шуток")
+            except ValueError:
+                print("Партия требует числа")
 
-        a = float(input("Введите нижний предел интегрирования: "))
-        b = float(input("Введите верхний предел интегрирования: "))
-        epsilon = float(input("Введите точность вычисления (например, 0.001): "))
+        while True:
+            try:
+                epsilon = float(input("Введите точность вычисления: ").replace(',', '.'))
+                if epsilon > 0 and epsilon < 1:
+                    break
+                print("Партия требует точность между 0 и 1")
+            except ValueError:
+                print("Партия требует числа")
 
         print("\nДоступные методы:")
         for idx, (name, _) in self.methods.items():
             print(f"{idx}. {name}")
 
-        method_idx = int(input("Выберите метод (1-5): "))
-        if method_idx not in self.methods:
-            print("Неверный выбор метода.")
-            return
+        while True:
+            try:
+                method_idx = int(input("Выберите метод (1-5): "))
+                if method_idx not in self.methods:
+                    raise ValueError
+                break
+            except ValueError:
+                print("Партия возмущена. Вы выбрали несуществующий метод!")
 
         method_name, method_func = self.methods[method_idx]
         func = self.improper_functions[func_idx][1]
