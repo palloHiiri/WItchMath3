@@ -18,8 +18,8 @@ class IntegralCalculator:
         }
 
         self.improper_functions = {
-            1: ("1/sqrt(x) (разрыв в 0)", lambda x: 1 / math.sqrt(x), 0),
-            2: ("1/(1-x)^2 (разрыв в 1)", lambda x: 1 / (1 - x) ** 2, 1),
+            1: ("1/sqrt(x) (разрыв в 0)", lambda x: 1 / math.sqrt(x) if x != 0 else float('inf'), 0),
+            2: ("1/(1-x)^2 (разрыв в 1)", lambda x: 1 / (1 - x) ** 2 if x != 1 else float('inf'), 1),
             3: ("ln(x) (разрыв в 0)", lambda x: math.log(x) if x != 0 else float('inf'), 0),
             4: ("1/x (разрыв в 0)", lambda x: 1 / x if x != 0 else float('inf'), 0)
         }
